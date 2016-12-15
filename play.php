@@ -29,9 +29,9 @@ require_once "cache.php";
 	}
 
 	// FOR TESTING ONLY
-	// if ($uname == "seller1")
+	// if (strpos("seller",$uname))
 	// 	$role = "seller";
-	// else if ($uname == "buyer1")
+	// else if (strpos("buyer",$uname))
 	// 	$role = "buyer";
 
 	$users[$uname] = array("role" => $role, "profit" => $profit, "currentCost" => 0);

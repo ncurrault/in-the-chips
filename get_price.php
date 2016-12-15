@@ -8,18 +8,33 @@ $uname = $_GET["uname"];
 
 $round = cache_fetch("rounds")[0];
 
-$equilibrium = $round["eqlbPrice"];
+
+$numberSellers = $round["numberSellers"];
+$eqlbPrice = $round["eqlbPrice"];
+$sellerVary = $round["sellerVary"];
+$buyerVary = $round["buyerVary"];
+$supplyElas = $round["supplyElas"];
+$demandElas = $round["demandElas"];
+$supplyShift = $round["supplyShift"];
+$demandShift = $round["demandShift"];
+
 if ($role == "seller") {
-	$min = $equilibrium - $round["sellerVary"];
-	$max = $equilibrium + $round["sellerVary"];
+	$totalArea = 2 * $sellerVary * $sellerVary * $demandElas; // MATH!
+	$finalRange = 2 * $sellerVary;
+	$randomSeed = rand(0, $totalArea) * $finalRange * 1.0 / $totalArea;
+
+	$price = $eqlbPrice - $sellerVary + $randomSeed;
+	$price += $supplyShift;
 } else {
-	$min = $equilibrium - $round["buyerVary"];
-	$max = $equilibrium + $round["buyerVary"];
+	$totalArea = 2 * $buyerVary * $buyerVary * $demandElas; // MATH!
+	$finalRange = 2 * $buyerVary;
+	$randomSeed = rand(0, $totalArea) * $finalRange * 1.0 / $totalArea;
+
+	$price = $eqlbPrice + $buyerVary - $randomSeed;
+	$price += $demandShift;
 }
 
-$randval = rand(10*$min, 10*$max);
-$price = $randval / 10;
-
+$price = round($price, 2);
 echo $price;
 
 

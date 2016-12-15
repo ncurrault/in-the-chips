@@ -7,9 +7,9 @@
 
 		<title>"In the Chips" | Game Setup</title>
 	</head>
-
 	<body class="container">
 <?php
+
 if (isset($_POST["roundno"])) {
 	$newround = array(
 		"number" => $_POST["roundno"],
@@ -17,6 +17,10 @@ if (isset($_POST["roundno"])) {
 		"eqlbPrice" => $_POST["eqlPrice"],
 		"sellerVary" => $_POST["sellerVar"],
 		"buyerVary" => $_POST["buyerVar"],
+		"supplyElas" => $_POST["supplyElas"],
+		"demandElas" => $_POST["demandElas"],
+		"supplyShift" => $_POST["supplyShift"],
+		"demandShift" => $_POST["demandShift"],
 		"numOffers" => $_POST["offerVis"]
 	);
 	$rounds = cache_fetch("rounds");
@@ -60,22 +64,33 @@ Number of players
 % sellers
 <input name="pctSellers" value="50" type="number">
 <br><br><br>
-equilibrium price
-<input name="eqlPrice" value="5" type="number" step="0.1">
+original equilibrium price
+$<input name="eqlPrice" value="5" type="number" step="0.1">
 <br><br>
 Seller price variance
-<input name="sellerVar" value="1.5" type="number" step="0.1">
+$<input name="sellerVar" value="1.5" type="number" step="0.1">
 <br><br>
 Buyer price variance
-<input name="buyerVar" value="1.5" type="number" step="0.1">
+$<input name="buyerVar" value="1.5" type="number" step="0.1">
 <br><br>
+Supply elasticity
+<input name="supplyElas" value="100" type="number">%
+<br><br>
+Demand elasticity
+<input name="demandElas" value="100" type="number">%
+<br><br>
+Supply curve shift
+$<input name="supplyShift" value="0" step="0.1" type="number">
+<br><br>
+Demand curve shift
+$<input name="demandShift" value="0" step="0.1" type="number">
+
+<br><br><br>
 Offer visibility
 <input name="offerVis" value="3" type="number" step="1">
 <br><br>
 Replace current round?
 <input name="replaceRound" type="checkbox">
-
-<!-- curve shifts -->
 
 <br>
 <input type="submit" class="btn btn-info">
