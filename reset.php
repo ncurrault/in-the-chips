@@ -1,7 +1,9 @@
 <?php
-apc_delete("users");
-apc_delete("saleRecord");
-//apc_delete("rounds");
-apc_delete("offers");
-apc_delete("sellersSoFar");
+require_once "cache.php";
+
+cache_delete("users");
+cache_delete("saleRecord");
+//cache_delete("rounds");
+cache_delete("offers");
+cache_delete("sellersSoFar");
 ?>

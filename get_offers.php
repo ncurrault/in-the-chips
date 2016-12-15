@@ -1,11 +1,10 @@
 <?php
-// echo "Error: connection issue"
-// exit;
+require_once "cache.php";
 
-$currentRound = apc_fetch("rounds")[0];
+$currentRound = cache_fetch("rounds")[0];
 $maxOffers = $currentRound["numOffers"];
 
-$offers = apc_fetch("offers");
+$offers = cache_fetch("offers");
 if (!$offers) {
 	$offers = array();
 }

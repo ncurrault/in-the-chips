@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <?php
+require_once "cache.php";
+
 	$uname = $_GET["uname"];
 	if (isset($_GET["profit"])) {
 		$profit = $_GET["profit"];
@@ -7,20 +9,20 @@
 		$profit = 0;
 	}
 
-	$round = apc_fetch("rounds")[0];
+	$round = cache_fetch("rounds")[0];
 
-	$users = apc_fetch("users");
+	$users = cache_fetch("users");
 	if (!$users) {
 		$users = array();
 	}
 
-	$currentNumSellers = apc_fetch("sellersSoFar");
+	$currentNumSellers = cache_fetch("sellersSoFar");
 	if (!$currentNumSellers) {
 		$currentNumSellers = 0;
 	}
 	if ($currentNumSellers < $round["numberSellers"]) {
 		$role = "seller";
-		apc_store("sellersSoFar", $currentNumSellers + 1);
+		cache_store("sellersSoFar", $currentNumSellers + 1);
 	}
 	else {
 		$role = "buyer";
@@ -33,7 +35,7 @@
 		$role = "buyer";
 
 	$users[$uname] = array("role" => $role, "profit" => $profit, "currentCost" => 0);
-	apc_store("users", $users);
+	cache_store("users", $users);
 ?>
 
 <html>
@@ -78,6 +80,7 @@
 				xhr.onload = function() {
 					if (xhr.status == 200) {
 						$("#price").html(xhr.response);
+						$("#offerBox").attr("placeholder", "");
 					} else {
 						alert("Error: connection/server issues (" + xhr.status + ")");
 					}

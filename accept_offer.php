@@ -1,10 +1,12 @@
 <?php
+require_once "cache.php";
+
 $uname = $_GET["me"];
 $otherUname = $_GET["them"];
 $amt = $_GET["price"];
 
-$offers = apc_fetch("offers");
-$users = apc_fetch("users");
+$offers = cache_fetch("offers");
+$users = cache_fetch("users");
 
 // query for user data
 $me = $users[$uname];
@@ -13,13 +15,13 @@ $them = $users[$otherUname];
 $myRole = $me["role"];
 $theirRole = $them["role"];
 
-$roundno = apc_fetch("rounds")[0]["number"]; // pray this works and don't sanitize anything
+$roundno = cache_fetch("rounds")[0]["number"]; // pray this works and don't sanitize anything
 
 $goodkey = null;
 
 foreach($offers as $key => $o) {
 	// disregard confounding unconfirmed transactions
-	if (!($o["sellerRecord"] || $o["buyerRecord"])) {
+	if (!$o["sellerRecord"] && !$o["buyerRecord"]) {
 		if ($o[$myRole . "Name"] == $uname) {
 			if ($o[$theirRole . "Name"]) {
 				// someone took your offer
@@ -33,7 +35,6 @@ foreach($offers as $key => $o) {
 		} else if ($o[$theirRole . "Name"] == $otherUname && $o["saleAmt"] == $amt) {
 			if (! $o[$myRole . "Name"]) {
 				// WE DID IT!
-
 				$goodkey = $key;
 			}
 		}
@@ -47,14 +48,14 @@ if ($goodkey === null) {
 	exit;
 } else {
 	// sign offer to mark it taken
-	$offers[$key][$myRole . "Name"] = $uname;
-	$offers[$key][$myRole . "Record"] = true;
+	$offers[$goodkey][$myRole . "Name"] = $uname;
+	$offers[$goodkey][$myRole . "Record"] = true;
 
 	$offers = array_values($offers);
-	apc_store("offers", $offers);
+	cache_store("offers", $offers);
 
 	// record sale
-	$saleRecord = apc_fetch("saleRecord");
+	$saleRecord = cache_fetch("saleRecord");
 	if (!$saleRecord)
 		$saleRecord = array();
 	array_push($saleRecord, array(
@@ -63,7 +64,7 @@ if ($goodkey === null) {
 		"buyerPrice" => $myRole == "buyer" ? $me["currentCost"] : $them["currentCost"],
 		"amt" => $amt
 	));
-	apc_store("saleRecord", $saleRecord);
+	cache_store("saleRecord", $saleRecord);
 
 	// calculate profits
 	if ($myRole == "buyer") {
@@ -76,7 +77,7 @@ if ($goodkey === null) {
 
 	$users[$uname]["profit"] += $myProfit;
 	$users[$otherUname]["profit"] += $theirProfit;
-	apc_store("users", $users);
+	cache_store("users", $users);
 
 	echo $users[$uname]["profit"];
 }

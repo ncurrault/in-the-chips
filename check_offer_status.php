@@ -1,11 +1,13 @@
 <?php
+require_once "cache.php";
+
 $uname = $_GET["uname"];
 
-$offers = apc_fetch("offers");
+$offers = cache_fetch("offers");
 if (!$offers) {
 	$offers = array();
 }
-$users = apc_fetch("users");
+$users = cache_fetch("users");
 
 // query for user data
 $role = $users[$uname]["role"];
@@ -23,7 +25,7 @@ foreach($offers as $key => $o) {
 		break;
 	}
 }
-$offers = apc_store("offers", $offers);
+$offers = cache_store("offers", $offers);
 
 if ($otherPerson !== null) {
 	echo "Offer accepted!\n";

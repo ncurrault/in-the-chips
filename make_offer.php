@@ -1,4 +1,6 @@
 <?php
+require_once "cache.php";
+
 $toAdd = array("saleAmt" => $_GET["amt"], "sellerRecord" => false, "buyerRecord" => false);
 if ($_GET["role"] == "seller") {
 	$toAdd["sellerName"] = $_GET["uname"];
@@ -8,7 +10,7 @@ if ($_GET["role"] == "seller") {
 	$toAdd["sellerName"] = null;
 }
 
-$offers = apc_fetch("offers");
+$offers = cache_fetch("offers");
 if (!$offers) {
 	$offers = array();
 }
@@ -37,5 +39,5 @@ foreach ($offers as $key => $o) {
 }
 $offers = array_values($offers);
 array_push($offers, $toAdd);
-apc_store("offers", $offers);
+cache_store("offers", $offers);
 ?>

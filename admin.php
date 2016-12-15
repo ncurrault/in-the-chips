@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<?php // print_r($_POST); ?>
+<?php require_once "cache.php"; ?>
 <html>
 	<head>
 		<?php require_once 'jquery_bs.php'; ?>
@@ -10,7 +10,7 @@
 
 	<body class="container">
 <?php
-if (isset($_POST["action"])) {
+if (isset($_POST["roundno"])) {
 	$newround = array(
 		"number" => $_POST["roundno"],
 		"numberSellers" => $_POST["numPlayers"] * $_POST["pctSellers"] / 100.0,
@@ -19,7 +19,7 @@ if (isset($_POST["action"])) {
 		"buyerVary" => $_POST["buyerVar"],
 		"numOffers" => $_POST["offerVis"]
 	);
-	$rounds = apc_fetch("rounds");
+	$rounds = cache_fetch("rounds");
 	if (!$rounds) {
 		$rounds = array();
 	}
@@ -28,7 +28,7 @@ if (isset($_POST["action"])) {
 	} else {
 		array_push($rounds, $newround);
 	}
-	apc_store("rounds", $rounds);
+	cache_store("rounds", $rounds);
 }
 
 // if(md5($_POST['pswd']) == "adea7fe25ef9ca47ebe3787a141d00f2") :
@@ -50,9 +50,6 @@ Duration (seconds):
 <input type="number">
 <br><br>
 -->
-
-<input type="hidden" name="pswd" value="<?php echo $_POST["pswd"]?>">
-<input type="hidden" name="action" value="1">
 
 Number
 <input name="roundno" value="1" type="number">
