@@ -1,6 +1,6 @@
 <?php
-echo "Error: connection issue"
-exit;
+// echo "Error: connection issue"
+// exit;
 
 $currentRound = apc_fetch("rounds")[0];
 $maxOffers = $currentRound["numOffers"];
@@ -11,20 +11,34 @@ if (!$offers) {
 }
 $role = $_GET["role"];
 
-foreach($offers as $o) {
+foreach($offers as $key => $o) {
 	if ($o["sellerRecord"] || $o["buyerRecord"]) {
-		unset($o);
+		unset($offers[$key]);
 	} else if ($o[$role . "Name"]) {
-		unset($o);
+		unset($offers[$key]);
 	}
 }
+$offers = array_values($offers);
 
-$toPresent = array_rand($offers, min($maxOffers, sizeof($offers)));
-print_r($toPresent);
-foreach ($toPresent as $n) {
-	$o = $offers[$n];
-	print_r($o);
+$toPresent = array();
+for ($i=0; $i<min($maxOffers, sizeof($offers)); $i++) {
+	$e = $offers[rand(0, sizeof($offers)-1)];
+	array_push($toPresent, $e);
+	unset($offers[$i]);
+	$offers = array_values($offers);
+}
+$offers = array_values($offers);
+
+//array_rand not working TODO fix???
+
+
+foreach ($toPresent as $o) {
 	//echo $o[saleAmt] . " from " . $o[$role == "seller" ? "buyerName" : "sellerName"];
-	//echo "<tr><td>" . $o["saleAmt"] . "</td><td>" . $o[$role == "seller" ? "buyerName" : "sellerName"] . "</td></tr>";
+	$otherPerson = $o[$role == "seller" ? "buyerName" : "sellerName"];
+	$amt = $o["saleAmt"];
+
+	echo "<tr class='offer'><td>$". $amt . "</td><td>" . $otherPerson .
+	"</td><td><button class=\"btn btn-success\" onclick='return acceptOffer(\"". $otherPerson . "\", " . $amt . ");'>Accept Offer</button></td></tr>";
+	//echo $o[saleAmt] . "\n" . $o[$role == "seller" ? "buyerName" : "sellerName"];
 }
 ?>

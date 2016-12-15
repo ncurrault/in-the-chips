@@ -1,3 +1,4 @@
+<pre>
 <?php
 echo "users<br>";
 print_r( apc_fetch("users"));
@@ -14,3 +15,4 @@ echo "<br><br>";
 echo "sellersSoFar<br>";
 print_r( apc_fetch("sellersSoFar"));
 ?>
+</pre>

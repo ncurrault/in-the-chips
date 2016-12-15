@@ -1,15 +1,30 @@
 <?php
-$rounds = apc_fetch("rounds");
+// TODO: actual S/D curves
 
-$equilibrium = $rounds[0]["eqlbPrice"];
-if ($_GET["role"] == "seller") {
-	$min = $equilibrium - $rounds[0]["sellerVary"];
-	$max = $equilibrium + $rounds[0]["sellerVary"];
+$role = $_GET["role"];
+$uname = $_GET["uname"];
+
+$round = apc_fetch("rounds")[0];
+
+$equilibrium = $round["eqlbPrice"];
+if ($role == "seller") {
+	$min = $equilibrium - $round["sellerVary"];
+	$max = $equilibrium + $round["sellerVary"];
 } else {
-	$min = $equilibrium - $rounds[0]["buyerVary"];
-	$max = $equilibrium + $rounds[0]["buyerVary"];
+	$min = $equilibrium - $round["buyerVary"];
+	$max = $equilibrium + $round["buyerVary"];
 }
 
 $randval = rand(10*$min, 10*$max);
-echo $randval / 10;
+$price = $randval / 10;
+
+echo $price;
+
+
+$users = apc_fetch("users");
+if (!$users) {
+	$users = array();
+}
+$users[$uname]["currentCost"] = $price;
+apc_store("users", $users);
 ?>
