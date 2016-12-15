@@ -1,0 +1,6 @@
+{
+	"require": {
+		"ext-memcached": "*",
+		"_empty_": "*"
+	}
+}
