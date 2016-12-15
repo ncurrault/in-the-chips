@@ -1,12 +1,7 @@
 <?php
 
+$mc = null;
 if (isset($_ENV['MEMCACHEDCLOUD_SERVERS'])) {
-	$USE_MEMCACHED = true;
-}
-else {
-	$USE_MEMCACHED = false;
-}
-if ($USE_MEMCACHED) {
 	$mc = new Memcached();
 	$mc->setOption(Memcached::OPT_BINARY_PROTOCOL, true);
 	$mc->addServers(array_map(function($server) { return explode(':', $server, 2); }, explode(',', $_ENV['MEMCACHEDCLOUD_SERVERS'])));
@@ -15,7 +10,7 @@ if ($USE_MEMCACHED) {
 
 function cache_fetch($x) {
 	global $USE_MEMCACHED;
-	if ($USE_MEMCACHED) {
+	if ($mc !== null) {
 		return $mc->get($x);
 	} else {
 		return apc_fetch($x);
@@ -23,7 +18,7 @@ function cache_fetch($x) {
 }
 function cache_store($x, $val) {
 	global $USE_MEMCACHED;
-	if ($USE_MEMCACHED) {
+	if ($mc !== null) {
 		return $mc->set($x, $val);
 	} else {
 		return apc_store($x, $val);
@@ -32,7 +27,7 @@ function cache_store($x, $val) {
 
 function cache_delete($x) {
 	global $USE_MEMCACHED;
-	if ($USE_MEMCACHED) {
+	if ($mc !== null) {
 		return $mc->delete($x);
 	} else {
 		return apc_delete($x);
