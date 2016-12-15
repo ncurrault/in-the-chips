@@ -1,1 +1,5 @@
-{}
+{
+    "require": {
+        "lboynton/memcached-json-session-save-handler": "0.0.1"
+    }
+}
