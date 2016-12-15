@@ -31,7 +31,7 @@ if (isset($_POST["action"])) {
 	apc_store("rounds", $rounds);
 }
 
-if(md5($_POST['pswd']) == "adea7fe25ef9ca47ebe3787a141d00f2") :
+// if(md5($_POST['pswd']) == "adea7fe25ef9ca47ebe3787a141d00f2") :
 ?>
 <!-- content -->
 
@@ -78,7 +78,7 @@ Offer visibility
 Replace current round?
 <input name="replaceRound" type="checkbox">
 
-<!-- offer visibility?? -->
+<!-- curve shifts -->
 
 <br>
 <input type="submit" class="btn btn-info">
@@ -86,14 +86,15 @@ Replace current round?
 <br><br><br><br>
 <a href="reset.php" class="btn btn-danger">RESET BUTTON</a>
 
-<?php else :?>
+
+<!-- <?php //else :?>
 
 	<form method="POST">
 		<h3>Enter admin password:</h3>
 		<input type="password" name="pswd"></input>
 		<input type="submit" class="btn btn-info">
 	</form>
-<?php endif;?>
+<?php //endif;?> -->
 
 	</body>
 </html>

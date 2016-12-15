@@ -14,15 +14,15 @@
 		</div>
 		<p>
 			This is an online game similar to the game of the same name we played in class.
-			Players will be divided into two groups &emdash; buyers and sellers.
+			Players will be divided into two groups &mdash; buyers and sellers.
 			Each will buy/sell boxes of <strike>computer</strike> potato chips.
 			The goal is to make the most profit.
 			If you are a buyer, buy things for as low as possible.
 			If you are a seller, sell things for as high a price as possible.
 		</p>
 		<p>
-			The online version also seeks to quatify the amount of players each trader interacts with.
-			We will collect data on this game and present statistics about supply/demand, deadweight loss, and comsumer surplus later.
+			The online version also seeks to quatify the number of players each trader interacts with.
+			We will collect data on this game and present statistics about supply/demand, deadweight loss, and surplus later.
 		</p>
 		<form method="GET" action="play.php" class="row">
 			<input type="text" name="uname" placeholder="Username">
