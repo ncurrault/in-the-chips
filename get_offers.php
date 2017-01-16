@@ -19,14 +19,15 @@ foreach($offers as $key => $o) {
 }
 $offers = array_values($offers);
 
-$toPresent = array();
-for ($i=0; $i<min($maxOffers, sizeof($offers)); $i++) {
-	$e = $offers[rand(0, sizeof($offers)-1)];
-	array_push($toPresent, $e);
-	unset($offers[$i]);
-	$offers = array_values($offers);
-}
-$offers = array_values($offers);
+$toPresent = $offers;
+// array();
+// for ($i=0; $i<min($maxOffers, sizeof($offers)); $i++) {
+// 	$e = $offers[rand(0, sizeof($offers)-1)];
+// 	array_push($toPresent, $e);
+// 	unset($offers[$i]);
+// 	$offers = array_values($offers);
+// }
+// $offers = array_values($offers);
 
 //array_rand not working TODO fix???
 
