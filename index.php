@@ -13,7 +13,9 @@
 			<h4>Nicholas Currault and Janae Lewis, Economics Final Project</h2>
 		</div>
 		<p>
-			This is an online game similar to the game of the same name we played in class.
+            <!-- This is an online game similar to the game of the same name we played in class. -->
+            This is an online adaptation of <a href="https://www.fte.org/teachers/teacher-resources/lesson-plans/efllessons/in-the-chips-a-market-in-computer-chips/">"In the Chips," an educational economics game (&copy; Foundation for Teaching Economics, 2001)</a>.
+
 			Players will be divided into two groups &mdash; buyers and sellers.
 			Each will buy/sell boxes of <strike>computer</strike> potato chips.
 			The goal is to make the most profit.
